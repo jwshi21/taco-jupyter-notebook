@@ -1,0 +1,10 @@
+#!/bin/bash
+
+git clone https://github.com/tensor-compiler/taco.git -b second-taco
+cd taco
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON=ON ..
+make -j8
+cd ../
+echo 'export PYTHONPATH=$HOME/taco/python_bindings/:$PYTHONPATH' >> ~/.bash_profile
