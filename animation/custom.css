@@ -16,8 +16,8 @@ body {
   grid-template-columns: repeat(5, 30px);
 }
 
-.array-7 {
-  grid-template-columns: repeat(7, 30px);
+.array-9 {
+  grid-template-columns: repeat(9, 30px);
 }
 
 .elem {

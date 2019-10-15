@@ -8,5 +8,3 @@ cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON=ON ..
 make -j8
 cd ../
 echo 'export PYTHONPATH=$HOME/taco/python_bindings/:$PYTHONPATH' >> ~/.bash_profile
-jupyter contrib nbextension install --user
-jupyter nbextension enable --py widgetsnbextension

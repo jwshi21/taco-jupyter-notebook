@@ -1,0 +1,14 @@
+import animation
+
+data_matrix = [[6, "", 9, 8], ["", "", "", ""], [5, "", "", 7]]
+
+data_rows = [('pos_r', 'pos', [0, 2]),
+             ('idx_r', 'idx', [0, 2])]
+data_columns = [('pos_c', 'pos', [0, 3, 5]),
+                ('idx_c', 'idx', [0, 2, 3, 0, 3])]  
+values = [('vals', 'vals', [6, 9, 8, 5, 7])]
+
+labels = ['a00', 'a02', 'a03', 'a20', 'a23']
+instructions = ['0100100', '0100111', '0100122', '0111233', '0111244']
+
+animation.display_animation('4', data_matrix, [data_rows, data_columns, values], labels, instructions)

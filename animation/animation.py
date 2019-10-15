@@ -2,66 +2,58 @@ from IPython.core.display import display, HTML
 
 css = open('./animation/custom.css', "r").read()
 
-matrix = '<div class="array array-5">\
-            <div class=elem></div>\
-            <div class="elem">0</div>\
-            <div class="elem">1</div>\
-            <div class="elem">2</div>\
-            <div class="elem">3</div>\
-            <div class="elem">0</div>\
-            <div id="a00" class="elem box">6</div>\
-            <div class="elem box"></div>\
-            <div id="a02"class="elem box">9</div>\
-            <div id="a03"class="elem box">8</div>\
-            <div class="elem">1</div>\
-            <div class="elem box"></div>\
-            <div class="elem box"></div>\
-            <div class="elem box"></div>\
-            <div class="elem box"></div>\
-            <div class="elem">2</div>\
-            <div id="a20"class="elem box">5</div>\
-            <div class="elem box"></div>\
-            <div class="elem box"></div>\
-            <div id="a23"class="elem box">7</div></div>'
+def generate_matrix(file_id, data_matrix):
+    matrix = '<div class="array array-5"><div class=elem></div>'
+    for i in range(len(data_matrix[0])):
+        matrix += '<div class="elem">{}</div>'.format(i)
+    
+    for i in range(len(data_matrix)):
+        matrix += '<div class="elem">{}</div>'.format(i)
+        for j in range(len(data_matrix[0])):
+            element = data_matrix[i][j]
+            element_id = file_id + 'a' + str(i) + str(j)
+            matrix += '<div id="{}" class="elem box">{}</div>'.format(element_id, element)
+    
+    return matrix + '</div>'
 
-size = [('size', 'size', [3])]
-data_columns = [('pos_c', 'pos', [0, 3, 3, 5]),
-                ('idx_c', 'idx', [0, 2, 3, 0, 3])]  
-values = [('vals', 'vals', [6, 9, 8, 5, 7])]
+def generate_html(file_id, data_list):
+    html = '<div class="array array-9">'
+    for data in data_list:
+        html = add_html(file_id, html, data)
+    return html + '</div>'
 
-def pretty_display(html, data_pieces):
-    html += '<div class="array array-7">'
-    for piece in data_pieces:
-        html = add_html(html, piece)
-    return html
-
-def add_html(html, data):
+def add_html(file_id, html, data):
     for i in range(len(data)):
-        element_id, label, numbers = data[i]   
-        html += '<div class="elem">' + label + '</div>'
-        for j in range(6):
+        array_type, label, numbers = data[i] 
+        html += '<div class="elem">{}</div>'.format(label)
+        for j in range(8):
             if j < len(numbers):
-                html += '<div id="' + element_id + str(j) + '" class="elem box">' + str(numbers[j]) + '</div>'
+                element_id = file_id + array_type + str(j)
+                html += '<div id="{}" class="elem box">{}</div>'.format(element_id, numbers[j])
             elif i == len(data) - 1:
                 html += '<div class="elem extra-vertical-space"></div>'
             else:
                 html += '<div class="elem"></div>'
     return html
 
-html = pretty_display("", [size, data_columns, values]) + '</div>'
+def generate_javascript(file_id, labels, instructions):
+    javascript = '<script>'
+    
+    for i in range(len(labels)):
+        element_id = file_id + labels[i];
+        instruction = instructions[i];
+        javascript += 'document.getElementById("{}").onmouseover = \
+                       function() {{mouse("{}", "{}", "{}", "#0cf")}};'.format(element_id, file_id, element_id, instruction)
+        javascript += 'document.getElementById("{}").onmouseout = \
+                       function() {{mouse("{}", "{}", "{}", "#fff")}};'.format(element_id, file_id, element_id, instruction)
 
-javascript = "<script>"
+    with open('./animation/javascript.txt', 'r') as file:
+        javascript += file.read() + '</script>'
+    
+    return javascript
 
-labels = ['"a00"', '"a02"', '"a03"', '"a20"', '"a23"']
-instructions = ['"___0100"', '"___0111"', '"___0122"', '"___2333"', '"___2344"']
-
-for i in range(len(labels)):
-    label = labels[i];
-    instruction = instructions[i];
-    javascript += 'document.getElementById({}).onmouseover = function() {{mouse({}, "#0cf")}};\n'.format(label, instruction)
-    javascript += 'document.getElementById({}).onmouseout = function() {{mouse({}, "#fff")}};'.format(label, instruction)
-
-with open('./animation/javascript.txt', 'r') as file:
-    javascript += file.read() + '</script>'
-
-display(HTML(css + matrix + html + javascript))
+def display_animation(file_id, data_matrix, data_list, labels, instructions): 
+    matrix = generate_matrix(file_id, data_matrix)
+    html = generate_html(file_id, data_list)
+    javascript = generate_javascript(file_id, labels, instructions)
+    display(HTML(css + matrix + html + javascript))

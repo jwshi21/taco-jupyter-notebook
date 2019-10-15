@@ -1,9 +1,10 @@
-function mouse(hover, color) {
+function mouse(file_id, this_id, hover, color) {
     var array_names = ["pos_r", "pos_r", "idx_r", "pos_c", "pos_c", "idx_c", "vals"]
     for (var i = 0; i < hover.length; i++) {
         var id = hover[i];
         if (id !== "_") {
-            document.getElementById(array_names[i] + id).style.background = color;
+            document.getElementById(this_id).style.background = color;
+            document.getElementById(file_id + array_names[i] + id).style.background = color;
         }
     }
 }
