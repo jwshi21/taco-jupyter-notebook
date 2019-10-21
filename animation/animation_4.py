@@ -2,10 +2,10 @@ import animation
 
 data_matrix = [[6, "", 9, 8], ["", "", "", ""], [5, "", "", 7]]
 
-data_rows = [('pos_r', 'pos', [0, 2]),
-             ('idx_r', 'idx', [0, 2])]
-data_columns = [('pos_c', 'pos', [0, 3, 5]),
-                ('idx_c', 'idx', [0, 2, 3, 0, 3])]  
+data_rows = [('pos_0', 'pos', [0, 2]),
+             ('idx_0', 'idx', [0, 2])]
+data_columns = [('pos_1', 'pos', [0, 3, 5]),
+                ('idx_1', 'idx', [0, 2, 3, 0, 3])]  
 values = [('vals', 'vals', [6, 9, 8, 5, 7])]
 
 labels = ['a00', 'a02', 'a03', 'a20', 'a23']
